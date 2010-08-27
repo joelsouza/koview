@@ -1,0 +1,9 @@
+[submodule "vendor/smarty"]
+	path = vendor/smarty
+	url = git://github.com/bitweaver/smarty.git
+[submodule "vendor/mustache"]
+	path = vendor/mustache
+	url = git://github.com/bobthecow/mustache.php.git
+[submodule "vendor/dwoo"]
+	path = vendor/dwoo
+	url = git://github.com/Seldaek/Dwoo.git
