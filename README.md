@@ -26,5 +26,4 @@ No changes needed, just simple as:
 
 or for RSS / JSON or other data feed:
 
-<code>$view = new View('xml:path/to/rss');
-$view->xml = array(1, 2, 3, 4);</code>
+<code>$view = new View('xml:path/to/rss', array('data to feed'));</code>
