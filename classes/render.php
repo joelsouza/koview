@@ -1,11 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-abstract class Render {
+class Render {
 
-	// Static render class
-	final private function __construct()
-	{
+	public $feed = FALSE;
 	
-	}
-
+	public function __construct(){}
 }

@@ -1,8 +1,19 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/**
+ * View module for KO3
+ *
+ * Overwrites kohana View class to provide custom render engines
+ * to parse and output templates.
+ *
+ * @package    Koview
+ * @author     Birkir R Gudjonsson (birkir dot gudjonsson at gmail dot com)
+ * @copyright  (c) 2010 Birkir R Gudjonsson
+ * @license    http://kohanaframework.org/license
+ */
 class View extends Kohana_View {
 	
-	protected $_renderer = NULL;
+	protected $_renderer = 'php';
 	
 	/**
 	 * Starts profiling, if available, and loads up koview config. Then
@@ -29,17 +40,17 @@ class View extends Kohana_View {
 	* @param   string  filename
 	* @return  void
 	*/
-	public function set_filename($file=NULL)
+	public function set_filename($file)
 	{
 		$pos = strpos($file, ':');
 		
 		if ($pos === FALSE)
 		{
-			$this->_renderer = $this->_config->default_renderer;
+			$this->_renderer = 'php';
 		}
 		elseif ($pos == 0)
 		{
-			$this->_renderer = 'parent';
+			$this->_renderer = 'php';
 			$file = substr($file, 1);
 		}
 		else
@@ -49,11 +60,11 @@ class View extends Kohana_View {
 		}
 	
 		// Allow the parent method to set_filename
-		if ($this->_renderer == 'parent')
+		if ($this->_renderer == 'php')
 		{
 			return parent::set_filename($file);
 		}
-	
+		
 		// REVISIT we should implement this in the renderer
 		$this->_set_filename($file);
 	
@@ -68,9 +79,9 @@ class View extends Kohana_View {
 		// Find wanted extension and the template file
 		if (isset($render->extensions))
 		{
-			$exts = $render->$extensions;
+			$exts = $render->extensions;
 			
-			if ($render::$feed === TRUE)
+			if ($render->feed === TRUE)
 			{
 				// Does not use template files
 				$path = TRUE;
@@ -87,17 +98,17 @@ class View extends Kohana_View {
 				
 				if (!isset($path))
 				{
-					throw new Kohana_View_Exception('The requested view file :file.:ext could 
-not be found', array(
+					throw new Kohana_View_Exception('The requested view file :file.:ext could not be found', array(
 						':file' => $file, ':ext' => $ext,
 					));
 				}
+			}
 		}
 		else
 		{ 
-			throw new Kohana_View_Exception('There is no extension set for the :renderer renderer',
-				array(':renderer' => $this->_renderer)
-			);
+			throw new Kohana_View_Exception('There is no extension set for the :renderer renderer', array(
+				':renderer' => $this->_renderer
+			));
 		}
 	
 		// Store the file path locally
@@ -117,7 +128,7 @@ not be found', array(
 	*/
 	public function render($file = NULL, $options=array())
 	{
-		if ($this->_renderer == 'parent')
+		if ($this->_renderer == 'php')
 		{
 			return parent::render($file);
 		}
@@ -129,8 +140,7 @@ not be found', array(
 	
 		if (empty($this->_file))
 		{
-			throw new Kohana_View_Exception('You must set the file to use within your view before 
-rendering');
+			throw new Kohana_View_Exception('You must set the file to use within your view before rendering');
 		}
 		
 		$method = 'Render_'.ucfirst($this->_renderer).'::render';
