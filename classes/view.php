@@ -23,12 +23,17 @@ class View extends Kohana_View {
 	 * @param   array   array of values
 	 * @return  void
 	 */
-	public function __construct ($file = NULL, $data = null)
+	public function __construct ($file = NULL, $data = NULL, $options = array())
 	{
 		$token = Kohana::$profiling ? Profiler::start('renderer', 'new koview') : FALSE;
 		
 		$this->_config = Kohana::config('koview');
-	
+		
+		foreach ($options as $key => $item)
+		{
+			$this->_config->$key = $item;
+		}
+		
 		parent::__construct($file, $data);
 		
 		$token ? Profiler::stop($token) : null;
@@ -136,11 +141,6 @@ class View extends Kohana_View {
 		if ($file !== NULL)
 		{
 			$this->set_filename($file);
-		}
-	
-		if (empty($this->_file))
-		{
-			throw new Kohana_View_Exception('You must set the file to use within your view before rendering');
 		}
 		
 		$method = 'Render_'.ucfirst($this->_renderer).'::render';
