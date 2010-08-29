@@ -10,3 +10,6 @@
 [submodule "vendor/less"]
 	path = vendor/less
 	url = git://github.com/leafo/lessphp.git
+[submodule "vendor/twig"]
+	path = vendor/twig
+	url = git://github.com/fabpot/Twig.git
