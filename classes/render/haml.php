@@ -14,7 +14,9 @@ class Render_Haml extends Render {
 
 		$vars = $vars + $globals;
 		
-		$result = $haml->compile(file($file));
+		$file = $haml->parse($file, APPPATH.'cache/render/haml');
+		
+		$result = file_get_contents($file);
 		
 		$token ? Profiler::stop($token) : NULL;
 
@@ -35,14 +37,14 @@ class Render_Haml extends Render {
 
 		try
 		{
-			include MODPATH.'koview/vendor/haml/Haml.php';
+			include MODPATH.'koview/vendor/haml/HamlParser.php';
 		}
 		catch (Exception $e)
 		{
 			throw new Kohana_Exception('Could not load Haml class file');
 		}
 
-		$haml = new Haml;
+		$haml = new HamlParser($config);
 
 		self::$haml = $haml;
 

@@ -17,7 +17,7 @@ class Render_Sass extends Render {
 		$token ? Profiler::stop($token) : NULL;
 
 		ob_start();
-		$sass->compile(file($file));
+		echo $sass->toCss($file);
 		return ob_get_clean();
 	}
 
@@ -32,18 +32,21 @@ class Render_Sass extends Render {
 		$token = Kohana::$profiling ? Profiler::start('sass', 'load sass') : FALSE;
 
 		$config = Kohana::config('sass');
-
+		
+		$config = array(
+			'cache_location' => APPPATH.'cache/render/sass'
+		);
+		
 		try
 		{
-			include MODPATH.'koview/vendor/sass/Sass.php';
+			include MODPATH.'koview/vendor/sass/SassParser.php';
 		}
 		catch (Exception $e)
 		{
 			throw new Kohana_Exception('Could not load Sass class file');
 		}
 
-		$sass = new Sass;
-		$sass->style = 'oneliner';
+		$sass = new SassParser($config);
 		
 		self::$sass = $sass;
 
