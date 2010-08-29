@@ -9,13 +9,13 @@ Supported engines:
 * PHP (Kohana render)
 * JSON
 * CSV (still in progress)
-* XML/RSS (still in progress)
+* XML
 * Haml
 * Sass
 * Smarty
 * Mustache
 * Dwoo
-* Less (still in progress)
+* Less
 
 ## TODO
 
