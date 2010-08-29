@@ -8,7 +8,6 @@ Supported engines:
 
 * PHP (Kohana render)
 * JSON
-* CSV (still in progress)
 * XML
 * Haml
 * Sass
@@ -16,6 +15,8 @@ Supported engines:
 * Mustache
 * Dwoo
 * Less
+* Twig (still in progress)
+* CSV (not yet)
 
 ## TODO
 
